@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { ToastContainer } from './components/Toast';
 import { Dashboard } from './pages/Dashboard';
 import { Settings } from './pages/Settings';
+import { Landing } from './pages/Landing';
 import { ProposalTool } from './tools/proposal';
 import { FollowupTool } from './tools/followup';
 import { ScopeTool } from './tools/scope';
@@ -28,6 +30,21 @@ function PageContent() {
 }
 
 export function App() {
+  const [showLanding, setShowLanding] = useState(() => {
+    // Show landing only on first visit
+    const visited = localStorage.getItem('fk_visited');
+    return !visited;
+  });
+
+  function handleLaunch() {
+    localStorage.setItem('fk_visited', '1');
+    setShowLanding(false);
+  }
+
+  if (showLanding) {
+    return <Landing onLaunch={handleLaunch} />;
+  }
+
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">
       <Sidebar />
