@@ -116,18 +116,18 @@ export function Settings() {
             <Key size={15} className="text-violet-600" />
           </div>
           <div>
-            <h2 className="text-sm font-semibold text-gray-900">Groq API Key</h2>
-            <p className="text-xs text-gray-500">Free — required for AI enhancement features</p>
+            <h2 className="text-sm font-semibold text-gray-900">Your Own API Key <span className="text-xs font-normal text-gray-400">(optional)</span></h2>
+            <p className="text-xs text-gray-500">AI enhancement works automatically — add your own key for unlimited personal use</p>
           </div>
         </div>
 
         <div className="px-6 py-5 space-y-4">
           {/* Status badge */}
           <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
-            hasKey ? 'bg-teal-50 text-teal-700 border border-teal-100' : 'bg-amber-50 text-amber-700 border border-amber-100'
+            'bg-teal-50 text-teal-700 border border-teal-100'
           }`}>
-            {hasKey ? <Sparkles size={13} /> : <Key size={13} />}
-            {hasKey ? 'API key configured — AI enhancement is active' : 'No API key — AI enhancement is disabled'}
+            {hasKey ? <Sparkles size={13} /> : <Sparkles size={13} />}
+            {hasKey ? 'Using your personal Groq API key' : 'Using shared AI — works for everyone automatically'}
           </div>
 
           {/* Key input */}
