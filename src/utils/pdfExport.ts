@@ -15,105 +15,175 @@ export function exportToPDF({ title, content, filename }: PDFOptions): void {
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 20;
+  const margin = 22;
   const contentWidth = pageWidth - margin * 2;
 
-  // ── Header bar ──────────────────────────────────────────────────────────────
-  doc.setFillColor(13, 148, 136); // teal-600
-  doc.rect(0, 0, pageWidth, 18, 'F');
+  let currentPage = 1;
 
-  // Logo text
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'bold');
-  doc.text('FreelanceKit', margin, 12);
+  function drawPageFrame() {
+    // White background
+    doc.setFillColor(255, 255, 255);
+    doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-  // Date on right
-  doc.setFontSize(8);
-  doc.setFont('helvetica', 'normal');
-  const dateStr = new Date().toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  });
-  doc.text(dateStr, pageWidth - margin, 12, { align: 'right' });
+    // Teal header bar
+    doc.setFillColor(13, 148, 136);
+    doc.rect(0, 0, pageWidth, 22, 'F');
 
-  // ── Title ────────────────────────────────────────────────────────────────────
-  doc.setTextColor(17, 24, 39); // gray-900
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  doc.text(title, margin, 32);
+    // Left accent stripe
+    doc.setFillColor(10, 110, 100);
+    doc.rect(0, 0, 5, pageHeight, 'F');
 
-  // Divider line
-  doc.setDrawColor(209, 213, 219); // gray-300
-  doc.setLineWidth(0.3);
-  doc.line(margin, 36, pageWidth - margin, 36);
+    // Header: Logo
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'bold');
+    doc.text('FreelanceKit', 12, 14);
 
-  // ── Body content ─────────────────────────────────────────────────────────────
-  doc.setFontSize(9.5);
-  doc.setFont('courier', 'normal');
-  doc.setTextColor(55, 65, 81); // gray-700
+    // Header: tagline
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(204, 240, 235);
+    doc.text('AI-Powered Freelance Toolkit', 12, 19.5);
 
-  const lines = doc.splitTextToSize(content, contentWidth);
-  let y = 44;
-  const lineHeight = 5.5;
+    // Header: date (right)
+    const dateStr = new Date().toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    });
+    doc.setFontSize(8);
+    doc.setTextColor(255, 255, 255);
+    doc.text(dateStr, pageWidth - margin, 15, { align: 'right' });
 
-  for (const line of lines) {
-    if (y + lineHeight > pageHeight - 16) {
-      // Footer before new page
-      addFooter(doc, pageWidth, pageHeight, margin);
-      doc.addPage();
+    // Footer bar
+    doc.setFillColor(248, 250, 250);
+    doc.rect(0, pageHeight - 14, pageWidth, 14, 'F');
 
-      // Page header
-      doc.setFillColor(13, 148, 136);
-      doc.rect(0, 0, pageWidth, 10, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(8);
-      doc.setFont('helvetica', 'normal');
-      doc.text('FreelanceKit — ' + title, margin, 7);
+    // Footer top border
+    doc.setDrawColor(13, 148, 136);
+    doc.setLineWidth(0.5);
+    doc.line(5, pageHeight - 14, pageWidth, pageHeight - 14);
 
-      y = 18;
-      doc.setFontSize(9.5);
-      doc.setFont('courier', 'normal');
-      doc.setTextColor(55, 65, 81);
-    }
-
-    // Highlight section headers (lines with ═ or ─)
-    if (line.includes('═') || line.includes('─')) {
-      doc.setTextColor(13, 148, 136);
-      doc.setFont('courier', 'bold');
-    } else if (line.toUpperCase() === line && line.trim().length > 3 && !line.includes(' ') === false && line.trim().length < 40) {
-      doc.setTextColor(17, 24, 39);
-      doc.setFont('courier', 'bold');
-    } else {
-      doc.setTextColor(55, 65, 81);
-      doc.setFont('courier', 'normal');
-    }
-
-    doc.text(line, margin, y);
-    y += lineHeight;
+    // Footer text
+    doc.setTextColor(100, 116, 139);
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.text('freelancekit-zeta.vercel.app', 12, pageHeight - 6);
+    doc.text(`Page ${currentPage}`, pageWidth - margin, pageHeight - 6, { align: 'right' });
   }
 
-  // Footer on last page
-  addFooter(doc, pageWidth, pageHeight, margin);
+  // ── Page 1 ──────────────────────────────────────────────────────────────────
+  drawPageFrame();
+
+  // Document title box
+  doc.setFillColor(240, 253, 250);
+  doc.roundedRect(margin - 2, 27, contentWidth + 4, 14, 2, 2, 'F');
+  doc.setDrawColor(13, 148, 136);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(margin - 2, 27, contentWidth + 4, 14, 2, 2, 'S');
+
+  doc.setTextColor(13, 148, 136);
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text(title, margin + 2, 37);
+
+  // Content area
+  let y = 50;
+  const lineHeight = 5.2;
+  const bottomLimit = pageHeight - 18;
+
+  // Clean up content — remove ═ and ─ lines, replace with proper styling
+  const rawLines = content.split('\n');
+  const processedLines: Array<{ text: string; type: 'heading' | 'body' | 'divider' | 'bullet' | 'empty' }> = [];
+
+  for (const line of rawLines) {
+    const trimmed = line.trim();
+    if (trimmed === '') {
+      processedLines.push({ text: '', type: 'empty' });
+    } else if (/^[═─=\-]{4,}$/.test(trimmed)) {
+      processedLines.push({ text: trimmed, type: 'divider' });
+    } else if (
+      trimmed === trimmed.toUpperCase() &&
+      trimmed.length > 3 &&
+      trimmed.length < 50 &&
+      /[A-Z]/.test(trimmed)
+    ) {
+      processedLines.push({ text: trimmed, type: 'heading' });
+    } else if (/^[•\-✓✗]/.test(trimmed)) {
+      processedLines.push({ text: trimmed, type: 'bullet' });
+    } else {
+      processedLines.push({ text: line, type: 'body' });
+    }
+  }
+
+  for (const item of processedLines) {
+    // Check page overflow
+    if (y > bottomLimit) {
+      currentPage++;
+      doc.addPage();
+      drawPageFrame();
+      y = 32;
+    }
+
+    if (item.type === 'empty') {
+      y += 2.5;
+      continue;
+    }
+
+    if (item.type === 'divider') {
+      // Draw a clean teal line instead of ═══ characters
+      doc.setDrawColor(13, 148, 136);
+      doc.setLineWidth(0.3);
+      doc.line(margin, y, pageWidth - margin, y);
+      y += 4;
+      continue;
+    }
+
+    if (item.type === 'heading') {
+      // Section heading with background
+      doc.setFillColor(240, 253, 250);
+      doc.rect(margin - 2, y - 4, contentWidth + 4, 7, 'F');
+      doc.setTextColor(15, 118, 110);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text(item.text, margin, y);
+      y += 8;
+      continue;
+    }
+
+    if (item.type === 'bullet') {
+      doc.setTextColor(55, 65, 81);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      const wrapped = doc.splitTextToSize(item.text, contentWidth - 4);
+      for (const wl of wrapped) {
+        if (y > bottomLimit) {
+          currentPage++;
+          doc.addPage();
+          drawPageFrame();
+          y = 32;
+        }
+        doc.text(wl, margin + 2, y);
+        y += lineHeight;
+      }
+      continue;
+    }
+
+    // Regular body text
+    doc.setTextColor(55, 65, 81);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    const wrapped = doc.splitTextToSize(item.text, contentWidth);
+    for (const wl of wrapped) {
+      if (y > bottomLimit) {
+        currentPage++;
+        doc.addPage();
+        drawPageFrame();
+        y = 32;
+      }
+      doc.text(wl, margin, y);
+      y += lineHeight;
+    }
+  }
 
   // Save
-  doc.save(filename.replace('.txt', '.pdf'));
-}
-
-function addFooter(doc: jsPDF, pageWidth: number, pageHeight: number, margin: number): void {
-  doc.setFillColor(249, 250, 251); // gray-50
-  doc.rect(0, pageHeight - 12, pageWidth, 12, 'F');
-  doc.setDrawColor(229, 231, 235);
-  doc.setLineWidth(0.2);
-  doc.line(0, pageHeight - 12, pageWidth, pageHeight - 12);
-
-  doc.setTextColor(156, 163, 175); // gray-400
-  doc.setFontSize(7.5);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Generated by FreelanceKit — freelancekit-zeta.vercel.app', margin, pageHeight - 5);
-  doc.text(
-    `Page ${doc.getNumberOfPages()}`,
-    pageWidth - margin,
-    pageHeight - 5,
-    { align: 'right' }
-  );
+  doc.save(filename.replace('.txt', '').replace('.pdf', '') + '.pdf');
 }
