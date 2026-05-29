@@ -38,6 +38,9 @@ interface AppContextValue {
   history: HistoryEntry[];
   addHistory: (entry: Omit<HistoryEntry, 'id' | 'createdAt'>) => void;
   clearHistory: (toolId?: ToolId) => void;
+  deleteHistoryEntry: (id: string) => void;
+  historyPanelOpen: boolean;
+  setHistoryPanelOpen: (open: boolean) => void;
 
   // Drafts
   getDraft: (toolId: ToolId) => Record<string, string>;
@@ -59,6 +62,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [history, setHistory] = useLocalStorage<HistoryEntry[]>(HISTORY_KEY, []);
   const [drafts, setDrafts] = useLocalStorage<DraftEntry[]>(DRAFTS_KEY, []);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [historyPanelOpen, setHistoryPanelOpen] = useState(false);
 
   const updateSettings = useCallback(
     (patch: Partial<AppSettings>) => {
@@ -93,6 +97,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const kept = [newEntry, ...toolEntries].slice(0, 10);
         return [...filtered, ...kept];
       });
+    },
+    [setHistory]
+  );
+
+  const deleteHistoryEntry = useCallback(
+    (id: string) => {
+      setHistory((prev) => prev.filter((h) => h.id !== id));
     },
     [setHistory]
   );
@@ -149,6 +160,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         history,
         addHistory,
         clearHistory,
+        deleteHistoryEntry,
+        historyPanelOpen,
+        setHistoryPanelOpen,
         getDraft,
         saveDraft,
         clearDraft,

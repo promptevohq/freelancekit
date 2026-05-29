@@ -52,6 +52,7 @@ export function OnboardingTool() {
         <OutputPreview
           content={output}
           filename={`onboarding-${form.clientName.toLowerCase().replace(/\s+/g, '-')}.txt`}
+          title={`Onboarding Kit: ${form.clientName}`}
           onReset={handleReset}
         >
           <AIEnhanceButton content={output} prompt={ENHANCE_PROMPT} onEnhanced={(e) => { setOutput(e); addToast('Kit enhanced!', 'success'); }} />

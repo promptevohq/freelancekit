@@ -3,6 +3,7 @@ import { useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { ToastContainer } from './components/Toast';
+import { HistoryPanel } from './components/HistoryPanel';
 import { Dashboard } from './pages/Dashboard';
 import { Settings } from './pages/Settings';
 import { Landing } from './pages/Landing';
@@ -15,7 +16,6 @@ import { CalculatorTool } from './tools/calculator';
 
 function PageContent() {
   const { activePage } = useApp();
-
   switch (activePage) {
     case 'dashboard':  return <Dashboard />;
     case 'proposal':   return <ProposalTool />;
@@ -31,9 +31,7 @@ function PageContent() {
 
 export function App() {
   const [showLanding, setShowLanding] = useState(() => {
-    // Show landing only on first visit
-    const visited = localStorage.getItem('fk_visited');
-    return !visited;
+    return !localStorage.getItem('fk_visited');
   });
 
   function handleLaunch() {
@@ -54,6 +52,7 @@ export function App() {
           <PageContent />
         </main>
       </div>
+      <HistoryPanel />
       <ToastContainer />
     </div>
   );

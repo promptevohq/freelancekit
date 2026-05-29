@@ -52,6 +52,7 @@ export function ScopeTool() {
         <OutputPreview
           content={output}
           filename={`scope-${form.projectName.toLowerCase().replace(/\s+/g, '-')}.txt`}
+          title={`Scope: ${form.projectName}`}
           onReset={handleReset}
         >
           <AIEnhanceButton content={output} prompt={ENHANCE_PROMPT} onEnhanced={(e) => { setOutput(e); addToast('Scope enhanced!', 'success'); }} />

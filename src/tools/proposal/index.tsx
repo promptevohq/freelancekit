@@ -58,6 +58,7 @@ export function ProposalTool() {
         <OutputPreview
           content={output}
           filename={`proposal-${form.clientName.toLowerCase().replace(/\s+/g, '-')}.txt`}
+          title={`Proposal for ${form.clientName}`}
           onReset={handleReset}
         >
           <AIEnhanceButton

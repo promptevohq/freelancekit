@@ -1,16 +1,18 @@
-import { Copy, Download, RotateCcw, CheckCheck } from 'lucide-react';
+import { Copy, Download, RotateCcw, CheckCheck, FileDown } from 'lucide-react';
 import { useState } from 'react';
 import { copyToClipboard, downloadText } from '../utils/helpers';
+import { exportToPDF } from '../utils/pdfExport';
 import { useApp } from '../context/AppContext';
 
 interface OutputPreviewProps {
   content: string;
   filename?: string;
+  title?: string;
   onReset?: () => void;
-  children?: React.ReactNode; // slot for AIEnhanceButton
+  children?: React.ReactNode;
 }
 
-export function OutputPreview({ content, filename = 'output.txt', onReset, children }: OutputPreviewProps) {
+export function OutputPreview({ content, filename = 'output.txt', title = 'Document', onReset, children }: OutputPreviewProps) {
   const { addToast } = useApp();
   const [copied, setCopied] = useState(false);
 
@@ -25,15 +27,28 @@ export function OutputPreview({ content, filename = 'output.txt', onReset, child
     }
   }
 
-  function handleDownload() {
+  function handleDownloadTxt() {
     downloadText(filename, content);
-    addToast('File downloaded!', 'success');
+    addToast('Text file downloaded!', 'success');
+  }
+
+  function handleDownloadPDF() {
+    try {
+      exportToPDF({
+        title,
+        content,
+        filename: filename.replace('.txt', '.pdf'),
+      });
+      addToast('PDF downloaded!', 'success');
+    } catch {
+      addToast('PDF export failed.', 'error');
+    }
   }
 
   return (
     <div className="space-y-4">
       {/* Action bar */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
           {children}
         </div>
@@ -48,11 +63,18 @@ export function OutputPreview({ content, filename = 'output.txt', onReset, child
             </button>
           )}
           <button
-            onClick={handleDownload}
+            onClick={handleDownloadTxt}
             className="flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors shadow-card"
           >
             <Download size={13} />
-            Download
+            .txt
+          </button>
+          <button
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-1.5 text-xs font-medium text-rose-600 bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-lg hover:bg-rose-100 transition-colors shadow-card"
+          >
+            <FileDown size={13} />
+            PDF
           </button>
           <button
             onClick={handleCopy}

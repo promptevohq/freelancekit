@@ -106,6 +106,7 @@ export function CalculatorTool() {
           <OutputPreview
             content={output}
             filename="my-freelance-rates.txt"
+            title="My Freelance Rates & Packages"
             onReset={handleReset}
           >
             {step === 2 && (

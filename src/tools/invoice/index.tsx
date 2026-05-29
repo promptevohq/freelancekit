@@ -52,6 +52,7 @@ export function InvoiceTool() {
         <OutputPreview
           content={output}
           filename={`invoice-reminder-${form.invoiceNumber}.txt`}
+          title={`Invoice Reminder #${form.invoiceNumber}`}
           onReset={handleReset}
         >
           <AIEnhanceButton content={output} prompt={ENHANCE_PROMPT} onEnhanced={(e) => { setOutput(e); addToast('Reminder enhanced!', 'success'); }} />

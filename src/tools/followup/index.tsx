@@ -54,6 +54,7 @@ export function FollowupTool() {
         <OutputPreview
           content={output}
           filename={`followup-${form.clientName.toLowerCase().replace(/\s+/g, '-')}.txt`}
+          title={`Follow-up: ${form.projectName}`}
           onReset={handleReset}
         >
           <AIEnhanceButton content={output} prompt={ENHANCE_PROMPT} onEnhanced={(e) => { setOutput(e); addToast('Email enhanced!', 'success'); }} />
