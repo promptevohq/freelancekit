@@ -23,7 +23,7 @@ export function OnboardingFormView({ data, onChange, onNext }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Client Name" required>
           <input className={inputCls} placeholder="Sarah at Acme Corp" value={data.clientName} onChange={set('clientName')} />
         </Field>
@@ -32,7 +32,7 @@ export function OnboardingFormView({ data, onChange, onNext }: Props) {
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Your Name" required>
           <input className={inputCls} placeholder="Alex Rivera" value={data.yourName} onChange={set('yourName')} />
         </Field>
@@ -41,7 +41,7 @@ export function OnboardingFormView({ data, onChange, onNext }: Props) {
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Project Start Date">
           <input className={inputCls} type="date" value={data.startDate} onChange={set('startDate')} />
         </Field>
@@ -50,7 +50,7 @@ export function OnboardingFormView({ data, onChange, onNext }: Props) {
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Communication Channel">
           <input className={inputCls} placeholder="Slack, Email, etc." value={data.communicationChannel} onChange={set('communicationChannel')} />
         </Field>

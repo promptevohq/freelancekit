@@ -41,7 +41,7 @@ export function ProposalFormView({ data, onChange, onNext }: ProposalFormProps) 
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Client Name" required>
           <input
             className={inputCls}
@@ -60,7 +60,7 @@ export function ProposalFormView({ data, onChange, onNext }: ProposalFormProps) 
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Project Title" required>
           <input
             className={inputCls}
@@ -99,7 +99,7 @@ export function ProposalFormView({ data, onChange, onNext }: ProposalFormProps) 
         />
       </Field>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Timeline">
           <input
             className={inputCls}

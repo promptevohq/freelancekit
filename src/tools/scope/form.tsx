@@ -23,7 +23,7 @@ export function ScopeFormView({ data, onChange, onNext }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Project Name" required>
           <input className={inputCls} placeholder="Website Redesign" value={data.projectName} onChange={set('projectName')} />
         </Field>
@@ -48,7 +48,7 @@ export function ScopeFormView({ data, onChange, onNext }: Props) {
         <textarea className={textareaCls} rows={3} placeholder="Figma design files&#10;Fully developed website&#10;30-day post-launch support" value={data.deliverables} onChange={set('deliverables')} />
       </Field>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Timeline">
           <input className={inputCls} placeholder="6 weeks from kickoff" value={data.timeline} onChange={set('timeline')} />
         </Field>

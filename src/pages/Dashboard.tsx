@@ -61,7 +61,7 @@ export function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <StatCard icon={<TrendingUp size={16} />} label="Total Outputs" value={totalUses} />
         <StatCard icon={<Zap size={16} />} label="Tools Used" value={`${toolsUsed} / 6`} />
         <StatCard icon={<Clock size={16} />} label="Drafts Saved" value={totalUses} />
@@ -73,7 +73,7 @@ export function Dashboard() {
           <h2 className="font-display text-[15px] font-700 text-gray-900">All Tools</h2>
           <span className="text-xs text-gray-400">6 tools available</span>
         </div>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {TOOLS.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
           ))}

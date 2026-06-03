@@ -1,34 +1,37 @@
 import {
-  LayoutDashboard,
-  FileText,
-  Mail,
-  FolderKanban,
-  Receipt,
-  Users,
-  Calculator,
-  Settings,
-  Zap,
+  LayoutDashboard, FileText, Mail, FolderKanban,
+  Receipt, Users, Calculator, Settings, Zap, X,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import type { ToolId } from '../types';
 
 const NAV_TOOLS: Array<{ id: ToolId | 'dashboard' | 'settings'; label: string; icon: React.ReactNode }> = [
-  { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-  { id: 'proposal', label: 'Proposal', icon: <FileText size={18} /> },
-  { id: 'followup', label: 'Follow-up Email', icon: <Mail size={18} /> },
-  { id: 'scope', label: 'Scope Builder', icon: <FolderKanban size={18} /> },
-  { id: 'invoice', label: 'Invoice Reminder', icon: <Receipt size={18} /> },
-  { id: 'onboarding', label: 'Onboarding Kit', icon: <Users size={18} /> },
-  { id: 'calculator', label: 'Rate Calculator', icon: <Calculator size={18} /> },
+  { id: 'dashboard',  label: 'Dashboard',       icon: <LayoutDashboard size={18} /> },
+  { id: 'proposal',   label: 'Proposal',         icon: <FileText size={18} /> },
+  { id: 'followup',   label: 'Follow-up Email',  icon: <Mail size={18} /> },
+  { id: 'scope',      label: 'Scope Builder',    icon: <FolderKanban size={18} /> },
+  { id: 'invoice',    label: 'Invoice Reminder', icon: <Receipt size={18} /> },
+  { id: 'onboarding', label: 'Onboarding Kit',   icon: <Users size={18} /> },
+  { id: 'calculator', label: 'Rate Calculator',  icon: <Calculator size={18} /> },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  mobileOpen: boolean;
+  onMobileClose: () => void;
+}
+
+export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
   const { activePage, setActivePage } = useApp();
 
-  return (
-    <aside className="w-60 shrink-0 bg-white border-r border-gray-100 flex flex-col h-screen sticky top-0">
+  function handleNav(id: string) {
+    setActivePage(id);
+    onMobileClose();
+  }
+
+  const sidebarContent = (
+    <>
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-gray-100">
+      <div className="px-5 py-5 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-teal-500 flex items-center justify-center shadow-sm">
             <Zap size={16} className="text-white" fill="white" />
@@ -42,6 +45,13 @@ export function Sidebar() {
             </span>
           </div>
         </div>
+        {/* Close button — mobile only */}
+        <button
+          onClick={onMobileClose}
+          className="md:hidden text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          <X size={18} />
+        </button>
       </div>
 
       {/* Nav */}
@@ -55,8 +65,8 @@ export function Sidebar() {
             return (
               <li key={id}>
                 <button
-                  onClick={() => setActivePage(id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 text-left ${
+                  onClick={() => handleNav(id)}
+                  className={`w-full flex items-center gap-3 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150 text-left ${
                     isActive
                       ? 'bg-teal-50 text-teal-700'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
@@ -79,20 +89,39 @@ export function Sidebar() {
       {/* Settings */}
       <div className="px-3 py-4 border-t border-gray-100">
         <button
-          onClick={() => setActivePage('settings')}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
+          onClick={() => handleNav('settings')}
+          className={`w-full flex items-center gap-3 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
             activePage === 'settings'
               ? 'bg-teal-50 text-teal-700'
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
           }`}
         >
-          <Settings
-            size={18}
-            className={activePage === 'settings' ? 'text-teal-600' : 'text-gray-400'}
-          />
+          <Settings size={18} className={activePage === 'settings' ? 'text-teal-600' : 'text-gray-400'} />
           Settings
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* ── Desktop sidebar ───────────────────────────────────────────────── */}
+      <aside className="hidden md:flex w-60 shrink-0 bg-white border-r border-gray-100 flex-col h-screen sticky top-0">
+        {sidebarContent}
+      </aside>
+
+      {/* ── Mobile overlay ────────────────────────────────────────────────── */}
+      {mobileOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 z-40 md:hidden"
+            onClick={onMobileClose}
+          />
+          <aside className="fixed left-0 top-0 h-full w-72 bg-white z-50 flex flex-col md:hidden shadow-2xl">
+            {sidebarContent}
+          </aside>
+        </>
+      )}
+    </>
   );
 }

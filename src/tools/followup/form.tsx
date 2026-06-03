@@ -29,7 +29,7 @@ export function FollowupFormView({ data, onChange, onNext }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Client Name" required>
           <input className={inputCls} placeholder="Sarah Johnson" value={data.clientName} onChange={set('clientName')} />
         </Field>
@@ -38,7 +38,7 @@ export function FollowupFormView({ data, onChange, onNext }: Props) {
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Project / Topic" required>
           <input className={inputCls} placeholder="Website Redesign" value={data.projectName} onChange={set('projectName')} />
         </Field>

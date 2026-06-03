@@ -42,7 +42,7 @@ export function CalculatorFormView({ data, onChange, onNext }: Props) {
         </div>
       </Field>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Work Weeks / Year" hint="Excluding vacation, sick days">
           <input className={inputCls} type="number" placeholder="48" value={data.workWeeksPerYear} onChange={set('workWeeksPerYear')} />
         </Field>
@@ -58,7 +58,7 @@ export function CalculatorFormView({ data, onChange, onNext }: Props) {
         </div>
       </Field>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Estimated Tax Rate (%)" hint="Include self-employment tax">
           <input className={inputCls} type="number" placeholder="30" value={data.taxRate} onChange={set('taxRate')} />
         </Field>

@@ -62,12 +62,12 @@ export function Landing({ onLaunch }: LandingProps) {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pt-12 md:pt-20 pb-10 md:pb-16 text-center">
         <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-100 text-teal-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
           <Sparkles size={12} />
           AI-Powered • 100% Free • No Account Needed
         </div>
-        <h1 className="font-display text-5xl font-800 text-gray-900 leading-tight mb-6 max-w-3xl mx-auto">
+        <h1 className="font-display text-3xl md:text-5xl font-800 text-gray-900 leading-tight mb-6 max-w-3xl mx-auto">
           The AI Toolkit Every
           <span className="text-teal-600"> Freelancer </span>
           Needs
@@ -104,7 +104,7 @@ export function Landing({ onLaunch }: LandingProps) {
               <h3 className="font-display text-xl font-700 text-white mb-1">Your AI Freelance Toolkit</h3>
               <p className="text-teal-100 text-sm">Generate proposals, follow-ups, scope docs, invoices and more — in seconds.</p>
             </div>
-            <div className="p-6 grid grid-cols-3 gap-3">
+            <div className="p-4 grid grid-cols-3 gap-2">
               {TOOLS.slice(0, 3).map((tool) => (
                 <div key={tool.label} className="bg-white border border-gray-200 rounded-xl p-3 shadow-card">
                   <div className={`w-8 h-8 rounded-lg border flex items-center justify-center mb-2 ${COLOR_MAP[tool.color]}`}>
@@ -119,13 +119,13 @@ export function Landing({ onLaunch }: LandingProps) {
       </section>
 
       {/* Tools grid */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-gray-50 py-12 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-700 text-gray-900 mb-3">6 Tools. Every Freelance Need.</h2>
             <p className="text-gray-500 max-w-md mx-auto">Everything you need to run a professional freelance business — without the expensive software.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TOOLS.map((tool) => (
               <div key={tool.label} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all">
                 <div className={`w-10 h-10 rounded-xl border flex items-center justify-center mb-4 ${COLOR_MAP[tool.color]}`}>
@@ -140,13 +140,13 @@ export function Landing({ onLaunch }: LandingProps) {
       </section>
 
       {/* How it works */}
-      <section className="py-20">
+      <section className="py-12 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-700 text-gray-900 mb-3">Ready in 3 Steps</h2>
             <p className="text-gray-500">No learning curve. Just fill, preview, and send.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {STEPS.map((step, i) => (
               <div key={i} className="text-center">
                 <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center mx-auto mb-4">
@@ -161,7 +161,7 @@ export function Landing({ onLaunch }: LandingProps) {
       </section>
 
       {/* AI Feature */}
-      <section className="bg-gradient-to-br from-violet-50 to-purple-50 py-20 border-y border-violet-100">
+      <section className="bg-gradient-to-br from-violet-50 to-purple-50 py-12 md:py-20 border-y border-violet-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-violet-100 text-violet-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
@@ -187,12 +187,12 @@ export function Landing({ onLaunch }: LandingProps) {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20">
+      <section className="py-12 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-700 text-gray-900 mb-3">Freelancers Love It</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {TESTIMONIALS.map((t) => (
               <div key={t.name} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-card">
                 <div className="flex gap-0.5 mb-3">
@@ -212,7 +212,7 @@ export function Landing({ onLaunch }: LandingProps) {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-br from-teal-600 to-teal-700 py-20">
+      <section className="bg-gradient-to-br from-teal-600 to-teal-700 py-12 md:py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="font-display text-4xl font-700 text-white mb-4">
             Start Working Smarter Today

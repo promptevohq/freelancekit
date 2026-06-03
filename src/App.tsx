@@ -30,25 +30,25 @@ function PageContent() {
 }
 
 export function App() {
-  const [showLanding, setShowLanding] = useState(() => {
-    return !localStorage.getItem('fk_visited');
-  });
+  const [showLanding, setShowLanding] = useState(() => !localStorage.getItem('fk_visited'));
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function handleLaunch() {
     localStorage.setItem('fk_visited', '1');
     setShowLanding(false);
   }
 
-  if (showLanding) {
-    return <Landing onLaunch={handleLaunch} />;
-  }
+  if (showLanding) return <Landing onLaunch={handleLaunch} />;
 
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <Header />
-        <main className="flex-1 p-6 overflow-y-auto">
+      <Sidebar
+        mobileOpen={mobileMenuOpen}
+        onMobileClose={() => setMobileMenuOpen(false)}
+      />
+      <div className="flex-1 flex flex-col min-w-0 w-full">
+        <Header onMenuClick={() => setMobileMenuOpen(true)} />
+        <main className="flex-1 p-4 md:p-6 overflow-y-auto">
           <PageContent />
         </main>
       </div>

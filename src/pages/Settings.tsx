@@ -32,7 +32,7 @@ export function Settings() {
   const hasKey = Boolean(apiKey.trim());
 
   return (
-    <div className="max-w-xl space-y-6">
+    <div className="max-w-xl space-y-6 w-full">
       {/* Freelancer Profile */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-card overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
@@ -45,7 +45,7 @@ export function Settings() {
           </div>
         </div>
         <div className="px-6 py-5 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
               <input
@@ -66,7 +66,7 @@ export function Settings() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Role / Title</label>
               <input

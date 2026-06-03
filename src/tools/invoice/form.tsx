@@ -28,7 +28,7 @@ export function InvoiceFormView({ data, onChange, onNext }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Client Name" required>
           <input className={inputCls} placeholder="Acme Corp" value={data.clientName} onChange={set('clientName')} />
         </Field>
@@ -37,7 +37,7 @@ export function InvoiceFormView({ data, onChange, onNext }: Props) {
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Invoice Number" required>
           <input className={inputCls} placeholder="INV-2024-042" value={data.invoiceNumber} onChange={set('invoiceNumber')} />
         </Field>
@@ -46,7 +46,7 @@ export function InvoiceFormView({ data, onChange, onNext }: Props) {
         </Field>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Field label="Amount Due" required>
           <input className={inputCls} placeholder="$3,500" value={data.amount} onChange={set('amount')} />
         </Field>

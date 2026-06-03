@@ -39,7 +39,7 @@ export function InvoiceTool() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl w-full">
       <StepWizard steps={tool.steps} currentStep={step} />
 
       {step === 1 && (
