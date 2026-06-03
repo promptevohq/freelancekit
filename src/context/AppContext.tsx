@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   type ReactNode,
 } from 'react';
@@ -51,21 +52,17 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [activePage, setActivePage] = useState(() => {
-    // Read page from URL hash on load
-    const hash = window.location.hash.replace('#', '');
-    return hash || 'dashboard';
-  });
+  const [activePage, setActivePage] = useState('dashboard');
 
-  // Sync activePage with browser back/forward
-  useState(() => {
+  // Listen to browser back/forward
+  useEffect(() => {
     const handlePopState = () => {
       const hash = window.location.hash.replace('#', '');
       setActivePage(hash || 'dashboard');
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  });
+  }, []);
 
   const [settings, setSettings] = useLocalStorage<AppSettings>(SETTINGS_KEY, {
     claudeApiKey: '',
@@ -80,7 +77,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const navigateTo = useCallback((page: string) => {
     setActivePage(page);
-    window.location.hash = page === 'dashboard' ? '' : page;
+    // Push to browser history so back button works
+    const hash = page === 'dashboard' ? '#' : '#' + page;
+    window.history.pushState({ page }, '', hash);
   }, []);
 
   const updateSettings = useCallback(

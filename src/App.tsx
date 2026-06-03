@@ -36,6 +36,7 @@ export function App() {
   function handleLaunch() {
     localStorage.setItem('fk_visited', '1');
     setShowLanding(false);
+    window.history.pushState({ page: 'dashboard' }, '', '#');
   }
 
   if (showLanding) return <Landing onLaunch={handleLaunch} />;
