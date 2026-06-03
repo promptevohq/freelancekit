@@ -51,7 +51,21 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [activePage, setActivePage] = useState('dashboard');
+  const [activePage, setActivePage] = useState(() => {
+    // Read page from URL hash on load
+    const hash = window.location.hash.replace('#', '');
+    return hash || 'dashboard';
+  });
+
+  // Sync activePage with browser back/forward
+  useState(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash.replace('#', '');
+      setActivePage(hash || 'dashboard');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  });
 
   const [settings, setSettings] = useLocalStorage<AppSettings>(SETTINGS_KEY, {
     claudeApiKey: '',
@@ -63,6 +77,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [drafts, setDrafts] = useLocalStorage<DraftEntry[]>(DRAFTS_KEY, []);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [historyPanelOpen, setHistoryPanelOpen] = useState(false);
+
+  const navigateTo = useCallback((page: string) => {
+    setActivePage(page);
+    window.location.hash = page === 'dashboard' ? '' : page;
+  }, []);
 
   const updateSettings = useCallback(
     (patch: Partial<AppSettings>) => {
@@ -151,7 +170,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider
       value={{
         activePage,
-        setActivePage,
+        setActivePage: navigateTo,
         settings,
         updateSettings,
         toasts,
